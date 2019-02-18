@@ -66,7 +66,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
   // check division by zero
   if (hypot == 0) {
-    cout << "division by zero" << endl;
+    cout << "division by zero.  outputting initialized Jacobian" << endl << Hj << endl;
     return Hj;
   }
   // compute the Jacobian matrix
@@ -74,6 +74,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   Hj <<     px/root, py/root, 0, 0,
             -py/hypot, px/hypot, 0, 0,
             py*(vx*py - vy*px)/hypot_root, px*(vy*px - vx*py)/hypot_root, px/root, py/root;
+ 
+  
   return Hj;
 }
 
