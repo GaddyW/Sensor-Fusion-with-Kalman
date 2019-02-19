@@ -37,6 +37,7 @@ FusionEKF::FusionEKF() {
   
   // create a 4D state vector, we don't know yet the values of the x state
   ekf_.x_ = VectorXd(4);
+  ekf_.x_ << 1, 1, 1, 1;
 
   // state covariance matrix P
   ekf_.P_ = MatrixXd(4, 4);
@@ -77,12 +78,16 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     // first measurement
     cout << "EKF: " << endl;
-    ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1, 1, 1, 1;
+    //ekf_.x_ = VectorXd(4);
+    //ekf_.x_ << 1, 1, 1, 1;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       // TODO: Convert radar from polar to cartesian coordinates 
       //         and initialize state.
+      ekf_.x_ << measurement_pack.raw_measurements_[0]*cos(measurement_pack.raw_measurements_[1]), 
+                measurement_pack.raw_measurements_[0]*sin(measurement_pack.raw_measurements_[1]), 
+                0, 
+                0;
 
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
@@ -91,7 +96,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
                 measurement_pack.raw_measurements_[1], 
                 0, 
                 0;
-
       previous_timestamp_ = measurement_pack.timestamp_;
     }
 

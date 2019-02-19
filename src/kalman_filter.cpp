@@ -65,7 +65,12 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   
   // convert predicted coordinates from cartesian to polar
   z_pred = VectorXd(3);
-  z_pred << root, atan2(py,px), (px*vx + py*vy)/root;
+  if (fabs(hypot) < 0.0001) {
+    z_pred << root, z(1), z(2);
+    cout << "Measurement indicates location (" << px << "," << py << ").  Phi and Rho_dot assigned to Z-pred from Z predicted" << endl << z_pred << endl;
+  } else {
+    z_pred << root, atan2(py,px), (px*vx + py*vy)/root;
+  }
 
   // calculate error, ensure that Phi is between -pi and pi
   VectorXd y = z - z_pred;

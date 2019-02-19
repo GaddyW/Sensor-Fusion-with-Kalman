@@ -63,13 +63,16 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float hypot_root = hypot*root;
 
   // TODO: YOUR CODE HERE 
-
+  // compute the Jacobian matrix
   // check division by zero
-  if (hypot == 0) {
-    cout << "division by zero.  outputting initialized Jacobian" << endl << Hj << endl;
+  if (fabs(hypot) < 0.0001) {
+	Hj << 	1000, 1000, 0, 0,
+     		1000, 1000, 0, 0,
+    		1000, 1000, 1000, 1000;
+    cout << "Measured location is (" << px << "," << py << ").  Difficult to calculate Jacobian.  Outputting high covariance so that predicted is trusted over measured." << endl << Hj << endl;
     return Hj;
   }
-  // compute the Jacobian matrix
+  
   
   Hj <<     px/root, py/root, 0, 0,
             -py/hypot, px/hypot, 0, 0,
