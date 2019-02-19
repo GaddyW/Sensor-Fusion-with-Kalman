@@ -77,7 +77,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      */
 
     // first measurement
-    cout << "EKF: " << endl;
+    //cout << "EKF: " << endl;
     //ekf_.x_ = VectorXd(4);
     //ekf_.x_ << 1, 1, 1, 1;
 
@@ -88,7 +88,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
                 measurement_pack.raw_measurements_[0]*sin(measurement_pack.raw_measurements_[1]), 
                 0, 
                 0;
-
+	  previous_timestamp_ = measurement_pack.timestamp_;
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       // TODO: Initialize state.
@@ -101,7 +101,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     // done initializing, no need to predict or update
     is_initialized_ = true;
-    std::cout << "EKF initialized with first measurement from: " << measurement_pack.sensor_type_ << std::endl;
+    std::cout << "EKF initialized with first measurement from: " << measurement_pack.sensor_type_ << std::endl << "Initial position is: " << std::endl << ekf_.x_ << std::endl << std::endl;
     return;
   }
 
@@ -147,12 +147,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    * - Update the state and covariance matrices.
    */
 
-  
+
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // TODO: Radar updates
     ekf_.R_ = R_radar_;
     ekf_.H_ = tools.CalculateJacobian(ekf_.x_);
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
+    
   } else {
     // TODO: Laser updates
   	// Call the Kalman Filter update() function
@@ -161,6 +162,5 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.H_ = H_laser_;
     ekf_.Update(measurement_pack.raw_measurements_);
   }
-
   // print the output
 }
