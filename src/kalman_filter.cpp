@@ -3,6 +3,7 @@
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
+
 /* 
  * Please note that the Eigen library does not initialize 
  *   VectorXd or MatrixXd objects with zeros upon creation.
@@ -56,18 +57,18 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
    * TODO: update the state by using Extended Kalman Filter equations
    */
   // recover state parameters
-  float px = x_state(0);
-  float py = x_state(1);
-  float vx = x_state(2);
-  float vy = x_state(3);
+  float px = x_(0);
+  float py = x_(1);
+  float vx = x_(2);
+  float vy = x_(3);
   float hypot = px*px + py*py;
   float root = sqrt(hypot);
   
   // convert predicted coordinates from cartesian to polar
-  z_pred = VectorXd(3);
+  VectorXd z_pred; 
   if (fabs(hypot) < 0.0001) {
     z_pred << root, z(1), z(2);
-    cout << "Measurement indicates location (" << px << "," << py << ").  Phi and Rho_dot assigned to Z-pred from Z predicted" << endl << z_pred << endl;
+    std::cout << "Measurement indicates location (" << px << "," << py << ").  Phi and Rho_dot assigned to Z-pred from Z predicted" << std::endl << z_pred << std::endl;
   } else {
     z_pred << root, atan2(py,px), (px*vx + py*vy)/root;
   }
@@ -77,7 +78,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   if (y(1) > M_PI) {
     y(1) = y(1) - 2*M_PI;
   } else if (y(1) < -M_PI)  {
-    y(1) = y(1) + 2*M_PIl
+    y(1) = y(1) + 2*M_PI;
   }
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;

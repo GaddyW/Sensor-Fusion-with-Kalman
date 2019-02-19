@@ -9,6 +9,8 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::string;
 using std::vector;
+using std::cout;
+using std::endl;
 
 // for convenience
 using json = nlohmann::json;
@@ -131,7 +133,8 @@ int main() {
           VectorXd RMSE30(4);
           RMSE30 << 0, 0, 0, 0;
           if (estimations.size() > 30) {
-            RMSE30 = tools.CalculateRMSE(estimations.tail(30), ground_truth.tail(30));
+             RMSE30 << 1, 1, 1, 1;
+            //RMSE30 = tools.CalculateRMSE(estimations.tail<30>()), ground_truth.tail<30>());
           }
 
           json msgJson;
