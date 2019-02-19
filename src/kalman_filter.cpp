@@ -65,7 +65,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   float root = sqrt(hypot);
   
   // convert predicted coordinates from cartesian to polar
-  VectorXd z_pred; 
+  VectorXd z_pred(3); 
   if (fabs(hypot) < 0.0001) {
     z_pred << root, z(1), z(2);
     std::cout << "Measurement indicates location (" << px << "," << py << ").  Phi and Rho_dot assigned to Z-pred from Z predicted" << std::endl << z_pred << std::endl;
@@ -85,7 +85,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   MatrixXd Si = S.inverse();
   MatrixXd PHt = P_ * Ht;
   MatrixXd K = PHt * Si;
-
+  
   //new estimate
   x_ = x_ + (K * y);
   long x_size = x_.size();

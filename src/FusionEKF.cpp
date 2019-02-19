@@ -101,6 +101,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     // done initializing, no need to predict or update
     is_initialized_ = true;
+    std::cout << "EKF initialized with first measurement from: " << measurement_pack.sensor_type_ << std::endl;
     return;
   }
 
@@ -117,7 +118,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // compute the time elapsed between the current and previous measurements
   // dt - expressed in seconds
 
-  
+  //std::cout << "New measurement from: " << measurement_pack.sensor_type_ << ".  Predicting updated x." << std::endl;
   // TODO: YOUR CODE HERE
   // 1. Modify the F matrix so that the time is integrated
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
@@ -156,7 +157,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // TODO: Laser updates
   	// Call the Kalman Filter update() function
   	// with the most recent raw measurements_
-  	ekf_.R_ = R_laser_;
+    ekf_.R_ = R_laser_;
     ekf_.H_ = H_laser_;
     ekf_.Update(measurement_pack.raw_measurements_);
   }

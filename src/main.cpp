@@ -144,10 +144,10 @@ int main() {
           msgJson["rmse_y"] =  RMSE(1);
           msgJson["rmse_vx"] = RMSE(2);
           msgJson["rmse_vy"] = RMSE(3);
-          msgJson["rmse30_x"] =  RMSE30(0);
-          msgJson["rmse30_y"] =  RMSE30(1);
-          msgJson["rmse30_vx"] = RMSE30(2);
-          msgJson["rmse30_vy"] = RMSE30(3);
+          //msgJson["rmse30_x"] =  RMSE30(0);
+          //msgJson["rmse30_y"] =  RMSE30(1);
+          //msgJson["rmse30_vx"] = RMSE30(2);
+          //msgJson["rmse30_vy"] = RMSE30(3);
           
           auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
           // std::cout << msg << std::endl;
