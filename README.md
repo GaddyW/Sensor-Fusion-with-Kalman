@@ -1,8 +1,20 @@
-# Extended Kalman Filter Project Starter Code
-Self-Driving Car Engineer Nanodegree Program
+# Tracking objects using the Extended Kalman Filter
+This project is part of the Udacity Self-Driving Car Engineer Nanodegree Program
 
 In this project you will utilize a kalman filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower than the tolerance outlined in the project rubric. 
 
+- Source files for the Extended Kalman Filter implementation can be found in the ./src folder
+- A data set containing radar and lidar measurements can be found in the ./Data folder
+- The derivation of the EKF can be found in the two PDF  documents stored in the ./Docs folder
+- Main.CPP is written to interact with a simulator provided by Udacity, but can be retooled to simply input lines from the data file and output EKF predictions
+
+Some information on the system dynamics:
+- x, the state, is position and velocity.  Yaw is not included
+- F, the state transition matrix, is linear as a result.  It is a constant velocity with no turning angle
+- H, for measurement, is non-linear on radar measurements since we must convert from cartesian to polar.  As a result, we use an EKF instead of a simple KF.
+
+
+## Set-up instructions for running at home
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
 This repository includes two files that can be used to set up and install [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO. Please see the uWebSocketIO Starter Guide page in the classroom within the EKF Project lesson for the required version and installation scripts.
