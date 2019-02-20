@@ -13,6 +13,12 @@ Some information on the system dynamics:
 - F, the state transition matrix, is linear as a result.  It is a constant velocity with no turning angle
 - H, for measurement, is non-linear on radar measurements since we must convert from cartesian to polar.  As a result, we use an EKF instead of a simple KF.
 
+Some information on file structure:
+- main.cpp - communicates with the Term 2 Simulator receiving data measurements, calls and calls FusionEKF.cpp to run the Kalman filter.  It also calls tools.cpp to calculate RMSE
+- FusionEKF.cpp - FusionEKF.cpp takes the sensor data and initializes variables and updates variables in the Kalman Filter object. However, the Kalman filter equations are not in this file. FusionEKF.cpp has a variable called ekf_, which is an instance of a KalmanFilter class. The ekf_ will hold the matrix and vector values. 
+- kalman_filter.cpp- defines the predict function, the update function for lidar, and the update function for radar
+- tools.cpp- function to calculate RMSE and the Jacobian matrix
+
 
 ## Set-up instructions for running at home
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
