@@ -80,7 +80,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     //cout << "EKF: " << endl;
     //ekf_.x_ = VectorXd(4);
     //ekf_.x_ << 1, 1, 1, 1;
-
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       // TODO: Convert radar from polar to cartesian coordinates 
       //         and initialize state.
@@ -89,18 +88,19 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
                 0, 
                 0;
 	  previous_timestamp_ = measurement_pack.timestamp_;
+      is_initialized_ = true;
     }
-    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+    //else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       // TODO: Initialize state.
-      ekf_.x_ << measurement_pack.raw_measurements_[0], 
-                measurement_pack.raw_measurements_[1], 
-                0, 
-                0;
-      previous_timestamp_ = measurement_pack.timestamp_;
-    }
+      //ekf_.x_ << measurement_pack.raw_measurements_[0], 
+      //          measurement_pack.raw_measurements_[1], 
+      //          0, 
+      //          0;
+      //previous_timestamp_ = measurement_pack.timestamp_;
+    //}
 
     // done initializing, no need to predict or update
-    is_initialized_ = true;
+
     std::cout << "EKF initialized with first measurement from: " << measurement_pack.sensor_type_ << std::endl << "Initial position is: " << std::endl << ekf_.x_ << std::endl << std::endl;
     return;
   }
@@ -135,6 +135,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             0, dt_4/4*noise_ay, 0, dt_3/2*noise_ay,
             dt_3/2*noise_ax, 0, dt_2*noise_ax, 0,
             0, dt_3/2*noise_ay, 0, dt_2*noise_ay;
+  // if dt > threshold, predict, otherwise go straight to update
   ekf_.Predict();
 
   /**
